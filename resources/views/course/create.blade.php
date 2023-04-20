@@ -54,7 +54,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>grade:</strong>
-                <input type="number" name="grade" class="form-control" placeholder="grade">
+                <input type="number" name="grade_id" class="form-control" placeholder="grade">
             </div>
         </div>
         

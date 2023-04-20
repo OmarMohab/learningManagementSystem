@@ -19,7 +19,10 @@ return new class extends Migration
                   ->constrained()
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            $table->integer('grade');
+            $table->foreignId('grade_id')
+                  ->constrained()
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

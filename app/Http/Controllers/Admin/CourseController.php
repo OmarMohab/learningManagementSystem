@@ -24,8 +24,8 @@ class CourseController extends Controller
         $courses->where('name', 'Like', '%' . request()->input('search') . '%');
     }
     if(Auth::user()->role == 'student'){
-        $student_grade = Auth::user()->userable->grade;
-        $courses->where('grade','Like','%'.$student_grade.'%');
+        $student_grade = Auth::user()->userable->grade->id;
+        $courses->where('grade_id','Like','%'.$student_grade.'%');
     }
     if(Auth::user()->role == 'teacher'){
         $courses->where('teacher_id', 'Like', '%'.Auth::user()->userable->id.'%');
@@ -48,11 +48,12 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-    
-        Course::create($request->all());
+        $course = Course::create($request->all());
+
+        foreach($course->grade->students as $student)
+        {
+            $student->courses()->attach($course->id);
+        }
      
         return redirect()->route('courses.index')
                         ->with('success','Course created successfully.');
@@ -65,7 +66,8 @@ class CourseController extends Controller
     {
         $materials = $course->materials;
         $meetings = $course->meetings;
-        return view('course.show',compact('course','materials','meetings'));
+        $assignments = $course->assignments;
+        return view('course.show',compact('course','materials','meetings','assignments'));
     }
 
     /**

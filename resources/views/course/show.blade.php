@@ -74,6 +74,16 @@
                     @endif
                 </tr>
             @endforeach
-        <table></table>
+        </table>
+
+    <h2>Assignments</h2>
+    @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
+        <div>
+            <a href="{{route('assignments.create', $course)}}">Create an Assignment</a>
+        </div>
+    @endif
+    @foreach ($assignments as $assignment)
+        <a href="{{route('assignments.show', $assignment->id)}}">{{$assignment->name}}</a><br>
+    @endforeach
     </div>
 @endsection

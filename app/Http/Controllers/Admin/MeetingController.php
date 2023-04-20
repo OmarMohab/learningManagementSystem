@@ -31,7 +31,7 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         Meeting::create($request->all());
-        return redirect()->route('courses');
+        return redirect()->route('courses.index')->with('success', 'Meeting Created Successfully');
     }
 
     /**
@@ -61,8 +61,11 @@ class MeetingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Meeting $meeting)
     {
-        //
+        $meeting_course_id = $meeting->course->id;
+        $meeting->delete();
+
+        return to_route('course.show', ['id' => $meeting_course_id])->with('success', 'Meeting Removed Successfully');
     }
 }

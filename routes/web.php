@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AssignmentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Student\SubmssionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,14 @@ Route::resource('/courses', CourseController::class);
 Route::resource('/materials', MaterialController::class);
 
 Route::get('{material}', [PdfController::class, 'index'])->name('file.open');
+Route::get('/assignment/{assignment}', [PdfController::class, 'assignment'])->name('prompt.open');
+Route::get('/submission/{submission}', [PdfController::class, 'submission'])->name('response.open');
 
 Route::resource('/meetings', MeetingController::class)->except('create');
 Route::get('/meetings/create/{course}', [MeetingController::class, 'create'])->name('meetings.create');
+
+Route::resource('/assignments', AssignmentController::class)->except('create');
+Route::get('/assignments/create/{course}', [AssignmentController::class, 'create'])->name('assignments.create');
+
+Route::resource('/submissions', SubmssionController::class);
+Route::get('assignment_submissions/{assignment}', [SubmssionController::class, 'specific'])->name('submissions.assignment');

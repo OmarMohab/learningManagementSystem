@@ -46,7 +46,7 @@ class UserController extends Controller
     
         if($request->input('role') == 0)
         {
-            $student = Student::create(['grade' => 1]);
+            $student = Student::create(['grade_id' => 1]);
             $student->user()->create($request->all());
         }
         elseif($request->input('role') == 2){

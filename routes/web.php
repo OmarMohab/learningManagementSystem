@@ -37,6 +37,9 @@ Route::middleware(['auth', 'user-access:student'])->group(function () {
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
   
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+    Route::get('/admin/user/teacher',[UserController::class, 'indexTeacher'])->name('admin.user.teacher');
+    Route::get('/admin/user/student',[UserController::class, 'indexStudent'])->name('admin.user.student');
+    Route::get('/admin/user/admin',[UserController::class, 'indexAdmin'])->name('admin.user.admin');
     Route::resource('/admin/users', UserController::class);
     //Route::resource('/admin/courses', CourseController::class);
 });

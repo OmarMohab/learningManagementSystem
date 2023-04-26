@@ -10,12 +10,6 @@
                 <div class="card-body">
                     You are an Admin.
                 </div>
-                <div class="card-body">
-                    <a href="{{Route('users.index')}}">Manage Users</a>
-                </div>
-                <div class="card-body">
-                    <a href="{{Route('courses.index')}}">Manage Courses</a>
-                </div>
             </div>
         </div>
     </div>

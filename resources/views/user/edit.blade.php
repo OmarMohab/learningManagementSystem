@@ -1,59 +1,69 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Edit User</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-            </div>
-        </div>
-    </div>
-   
-    @if ($errors->any())
-        <div class="alert alert-danger">
-        There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-  
-    <form action="{{ route('users.update',$user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-   
-         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Name:</strong>
-                    <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Name">
+
+        
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms /</span> Basic Inputs</h4>
+
+              @if ($errors->any())
+              <div class="alert alert-danger">
+              There were some problems with your input.<br><br>
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+              @endif
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-4">
+                    <h5 class="card-header">Default</h5>
+                    <div class="card-body">
+                        <form action="{{ route('users.update',$user->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div>
+                                <label for="defaultFormControlInput" class="form-label">Name</label>
+                                <input
+                                type="text"
+                                name="name" value="{{ $user->name }}" 
+                                class="form-control"
+                                id="defaultFormControlInput"
+                                placeholder="John Doe"
+                                aria-describedby="defaultFormControlHelp"
+                                />
+                            </div>
+                            <div>
+                                <label for="defaultFormControlInput" class="form-label">Email</label>
+                                <input
+                                type="text"
+                                name="email" value="{{ $user->email }}" 
+                                class="form-control"
+                                id="defaultFormControlInput"
+                                placeholder="John Doe"
+                                aria-describedby="defaultFormControlHelp"
+                                />
+                            </div>
+                            <input type="hidden" name="role" value="@if($user->role == "teacher") 2 @elseif($user->role == "admin") 1 @else 0 @endif">
+                            <div class="row mt-3">
+                                <div class="d-grid gap-2 col-lg-6 mx-auto">
+                                  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                </div>
+                              </div>
+                        </form>
+                    </div>
+                  </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    <textarea class="form-control" style="height:150px" name="email" placeholder="Email">{{ $user->email }}</textarea>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <div class="form-group">
-                <input type="radio" name="role" value="0">
-                <label for="studentRadio">Student</label><br>
-                <input type="radio" name="role" value="1">
-                <label for="adminRadio">Admin</label><br>
-                <input type="radio" name="role" value="2">
-                <label for="teacherRadio">Teacher</label><br>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
         </div>
    
-    </form>
+
+
 @endsection

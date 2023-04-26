@@ -7,29 +7,56 @@ use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Grade;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-{
-    $users = User::latest();
-    if (request()->has('search')) {
-        $users->where('name', 'Like', '%' . request()->input('search') . '%');
+    public function indexTeacher()
+    {
+        $users = User::latest();
+        if (request()->has('search')) {
+            $users->where('name', 'Like', '%' . request()->input('search') . '%');
+        }
+        $users = $users->where('role',2)->paginate(5);
+        $role  = "Teachers";
+        return view('user.index',compact('users','role'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
-    $users = $users->paginate(5);
-    return view('user.index',compact('users'))
-        ->with('i', (request()->input('page', 1) - 1) * 5);
-}
+
+    public function indexStudent()
+    {
+        $users = User::latest();
+        if (request()->has('search')) {
+            $users->where('name', 'Like', '%' . request()->input('search') . '%');
+        }
+        $users = $users->where('role',0)->paginate(5);
+        $role  = "Students";
+        return view('user.index',compact('users','role'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function indexAdmin()
+    {
+        $users = User::latest();
+        if (request()->has('search')) {
+            $users->where('name', 'Like', '%' . request()->input('search') . '%');
+        }
+        $users = $users->where('role',1)->paginate(5);
+        $role  = "Admins";
+        return view('user.index',compact('users','role'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('user.create');
+        $grades = Grade::all();
+        return view('user.create',compact('grades'));
     }
 
     /**
@@ -39,14 +66,15 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'password' => 'required',
-            'role' => 'required'
+            'role' => 'required',
+            'grade_id' => 'required_if:role,==,0'
         ]);
     
         if($request->input('role') == 0)
         {
-            $student = Student::create(['grade_id' => 1]);
+            $student = Student::create(['grade_id' => $request->input('grade_id')]);
             $student->user()->create($request->all());
         }
         elseif($request->input('role') == 2){
@@ -54,7 +82,7 @@ class UserController extends Controller
             $teacher->user()->create($request->all());
         }
         
-        return redirect()->route('users.index')
+        return redirect()->route('admin.home')
                         ->with('success','User created successfully.');
     }
 
@@ -87,18 +115,37 @@ class UserController extends Controller
     
         $user->update($request->all());
     
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        if($request->role == 0){
+            return redirect()->route('admin.user.student')
+            ->with('success','User updated successfully');
+        }elseif($request->role == 1){
+            return redirect()->route('admin.user.admin')
+            ->with('success','User updated successfully');
+        }else{
+            return redirect()->route('admin.user.teacher')
+            ->with('success','User updated successfully'); 
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
-    {
+    {   
+        $role = $user->role;
         $user->delete();
-    
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        
+        if($role == "student"){
+            return redirect()->route('admin.user.student')
+            ->with('success','User updated successfully');
+        }elseif($role == "admin"){
+            return redirect()->route('admin.user.admin')
+            ->with('success','User updated successfully');
+        }else{
+            return redirect()->route('admin.user.teacher')
+            ->with('success','User updated successfully'); 
+        }
+
     }
 }

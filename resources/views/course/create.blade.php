@@ -1,67 +1,83 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2>Add New Course</h2>
+   
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('courses.index') }}"> Back</a>
+    @endif
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header">Create New Course</h5>
+                <div class="card-body">
+                    <form action="{{ route('courses.store') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <div>
+                            <label for="defaultFormControlInput" class="form-label">Course ID</label>
+                            <input
+                            type="number"
+                            name="id"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+                        <div>
+                            <label for="defaultFormControlInput" class="form-label">Course Name</label>
+                            <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+                        <div>
+                            <label for="defaultFormControlInput" class="form-label">Description</label>
+                            <input
+                            type="text"
+                            name="description"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+                        <div>
+                            <label for="defaultFormControlInput" class="form-label">Teacher ID</label>
+                            <input
+                            type="number"
+                            name="teacher_id"
+                            class="form-control"
+                            id="defaultFormControlInput"
+                            aria-describedby="defaultFormControlHelp"
+                            />
+                        </div>
+                        <div class="mb-3" id="grade-select">
+                            <label for="exampleFormControlSelect1" class="form-label">Grade</label>
+                            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="grade_id">
+                              <option value="" disabled selected>---- Grade ----</option>
+                              @foreach ($grades as $grade)
+                                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                              @endforeach
+                            </select>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="d-grid gap-2 col-lg-6 mx-auto">
+                              <button type="submit" class="btn btn-primary btn-lg">Create Course</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-   
-@if ($errors->any())
-    <div class="alert alert-danger">
-        There were some problems with your input.<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-   
-<form action="{{ route('courses.store') }}" method="POST">
-    @csrf
-  
-     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>ID:</strong>
-                <input type="number" name="id" class="form-control" placeholder="ID">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Name:</strong>
-                <input type="text" name="name" class="form-control" placeholder="Name">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>description:</strong>
-                <textarea class="form-control" style="height:150px" name="description" placeholder="Description"></textarea>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Teacher ID:</strong>
-                <input type="number" name="teacher_id" class="form-control" placeholder="TeacherID">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>grade:</strong>
-                <input type="number" name="grade_id" class="form-control" placeholder="grade">
-            </div>
-        </div>
-        
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </div>
-   
-</form>
 @endsection

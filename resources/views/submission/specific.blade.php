@@ -16,7 +16,7 @@
                 <td>{{ 1 }}</td>
                 <td>{{$submission->student->user->name}}</td>
                 <td>{{$submission->updated_at}}</td>
-                <td><a href="{{Route('response.open', $submission)}}">Show</a></td>
+                <td><a class="btn btn-info" href="{{Route('response.open', $submission)}}">Show</a></td>
             </tr>
             @endforeach
         </table>

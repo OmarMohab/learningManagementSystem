@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Grade;
+use App\Models\Course;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Grade;
 
 class UserController extends Controller
 {
@@ -76,6 +77,17 @@ class UserController extends Controller
         {
             $student = Student::create(['grade_id' => $request->input('grade_id')]);
             $student->user()->create($request->all());
+
+            $courses = Course::Where('grade_id', $student->grade_id)->get();
+            foreach($courses as $course)
+            {
+                $course->students()->attach($student->id);
+                foreach($course->assignments as $assignment)
+                {
+                    $assignment->students()->attach($student->id);
+                }
+            }
+
         }
         elseif($request->input('role') == 2){
             $teacher = Teacher::create();

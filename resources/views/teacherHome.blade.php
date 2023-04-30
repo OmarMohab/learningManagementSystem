@@ -7,10 +7,13 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
   
                 <div class="card-body">
-                    You are a Teacher.
+                    <div>
+                        <p>Hello {{ auth()->user()->name }}</p>
+                    </div>
 
-                    <div class="card-body">
-                        <a href="{{Route('courses.index')}}">My Courses</a>
+                    <div class="card" style="width: 10rem">
+                        <img src="{{asset('admintool/assets/img/elements/courseCard.png')}}" alt="">
+                        <a class="btn btn-primary" href="{{Route('courses.index')}}">My Courses</a>
                     </div>
                 </div>
             </div>

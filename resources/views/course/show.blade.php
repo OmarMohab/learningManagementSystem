@@ -1,52 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="row text-center">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2> Show Course</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('courses.index') }}"> Back</a>
+                <h2>{{ $course->name }}</h2>
+                <p>{{ $course->description }}</p>
             </div>
         </div>
     </div>
    
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Name:</strong>
-                {{ $course->name }}
+    @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
+        <h2>Upload Material</h2>
+        <form action="{{Route('materials.store')}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="input-group">
+                <input class="form-control" type="file" name="material"><br>
+                <input type="hidden" name=course_id value={{$course->id}}>
+                <button class="btn btn-primary" type="submit">Upload</button>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Description:</strong>
-                {{ $course->description }}
-            </div>
-        </div>
-        @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
-            <div>
-                <h2>Upload Material</h2>
-                <form action="{{Route('materials.store')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" name="material"><br>
-                    <input type="hidden" name=course_id value={{$course->id}}>
-                    <button type="submit">Upload</button>
-                </form>
-            </div>
-        @endif
-    </div>
+        </form>
+    @endif
+    <br>
     <h2>Material</h2>
     <div>
         @foreach ($materials as $material)
-            <a href="{{route('file.open', $material)}}">{{$material->path}}</a><br>
-        @endforeach
+            <i class="bi bi-book-half"></i>
+            <a href="{{route('file.open', $material)}}">{{basename($material->path)}}</a><br>
+         @endforeach
     </div>
-    <h2>Meetings</h2>
+    <div class="d-flex">
+        <i class="bi bi-camera-video-fill" style="font-size:25px"></i>
+        <h2>Meetings</h2>
+    </div>
     @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
         <div>
-            <a href="{{route('meetings.create', $course)}}">Create a Meeting</a>
+            <a class="btn btn-primary" href="{{route('meetings.create', $course)}}">Create a Meeting</a>
         </div>
     @endif
     <div>
@@ -62,7 +51,7 @@
             </tr>
             @foreach ($meetings as $meeting)
                 <tr>
-                    <td>{{ 1 }}</td>
+                    <td>{{ ++$i }}</td>
                     <td>{{ $meeting->course->name }}</td>
                     <td>{{ $meeting->user->name }}</td>
                     <td>{{ $meeting->topic }}</td>
@@ -75,14 +64,15 @@
                 </tr>
             @endforeach
         </table>
-
+    
     <h2>Assignments</h2>
     @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
         <div>
-            <a href="{{route('assignments.create', $course)}}">Create an Assignment</a>
+            <a class="btn btn-primary" href="{{route('assignments.create', $course)}}">Create an Assignment</a>
         </div>
     @endif
     @foreach ($assignments as $assignment)
+        <i class="bi bi-pencil-fill"></i>
         <a href="{{route('assignments.show', $assignment->id)}}">{{$assignment->name}}</a><br>
     @endforeach
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Grade;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
@@ -40,7 +41,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('course.create');
+        $grades = Grade::all();
+        return view('course.create', compact('grades'));
     }
 
     /**

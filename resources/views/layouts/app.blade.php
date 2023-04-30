@@ -51,6 +51,9 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('admintool/assets/js/config.js') }}"></script>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   </head>
 
   <body>
@@ -161,10 +164,29 @@
                 </li>
                 <li class="menu-item">
                   <a href="{{ route('admin.user.admin') }}" class="menu-link">
-                    <div data-i18n="Container">Admin</div>
+                    <div data-i18n="Layouts">Admin</div>
                   </a>
                 </li>
               </ul>
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-layout"></i>
+                  <div data-i18n="Layouts">Courses</div>
+                </a>
+  
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                      <a href="{{ route('courses.create') }}" class="menu-link">
+                        <div data-i18n="Container">Create New Course</div>
+                      </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="{{ route('courses.index') }}" class="menu-link">
+                      <div data-i18n="Container">Courses</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </li>
 
           </ul>

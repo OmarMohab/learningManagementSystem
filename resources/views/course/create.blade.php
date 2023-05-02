@@ -51,15 +51,14 @@
                             aria-describedby="defaultFormControlHelp"
                             />
                         </div>
-                        <div>
-                            <label for="defaultFormControlInput" class="form-label">Teacher ID</label>
-                            <input
-                            type="number"
-                            name="teacher_id"
-                            class="form-control"
-                            id="defaultFormControlInput"
-                            aria-describedby="defaultFormControlHelp"
-                            />
+                        <div class="mb-3" id="grade-select">
+                            <label for="exampleFormControlSelect1" class="form-label">Teacher</label>
+                            <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="teacher_id">
+                              <option value="" disabled selected>---- Teacher ----</option>
+                              @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->userable_id }}">{{ $teacher->name }}</option>
+                              @endforeach
+                            </select>
                         </div>
                         <div class="mb-3" id="grade-select">
                             <label for="exampleFormControlSelect1" class="form-label">Grade</label>

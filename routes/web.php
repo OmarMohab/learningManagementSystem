@@ -24,14 +24,14 @@ use App\Http\Controllers\Student\SubmssionController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
 
 Route::middleware(['auth', 'user-access:student'])->group(function () {
   
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/student/home', [HomeController::class, 'index'])->name('student.home');
 });
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {

@@ -6,6 +6,8 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
+use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
@@ -42,7 +44,11 @@ class CourseController extends Controller
     public function create()
     {
         $grades = Grade::all();
-        return view('course.create', compact('grades'));
+        $teachers = User::whereHasMorph(
+            'userable', 
+            ['App\Models\Teacher']
+        )->get();
+        return view('course.create', compact('grades','teachers'));
     }
 
     /**
@@ -68,7 +74,12 @@ class CourseController extends Controller
     {
         $materials = $course->materials;
         $meetings = $course->meetings;
-        $assignments = $course->assignments;
+        $assignments = $course->assignments()->with(
+            ['students' => function ($query) {
+                $query->where('student_id', auth()->user()->userable_id);
+            }])
+        ->get();
+
         return view('course.show',compact('course','materials','meetings','assignments'));
     }
 

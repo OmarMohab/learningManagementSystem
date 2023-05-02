@@ -62,6 +62,7 @@
       <div class="layout-container">
         <!-- Menu -->
 
+        
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
@@ -130,16 +131,29 @@
 
           <div class="menu-inner-shadow"></div>
 
+
           <ul class="menu-inner py-1">
+            @if(auth()->user()->role == 'teacher' || auth()->user()->role == 'student')
+
             <!-- Dashboard -->
             <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+              <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
 
+            @elseif(auth()->user()->role == 'admin')
             <!-- Layouts -->
+
+            <!-- Dashboard -->
+            <li class="menu-item active">
+              <a href="#" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -168,12 +182,13 @@
                   </a>
                 </li>
               </ul>
-              <li class="menu-item">
+            </li>
+            <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                   <i class="menu-icon tf-icons bx bx-layout"></i>
                   <div data-i18n="Layouts">Courses</div>
                 </a>
-  
+
                 <ul class="menu-sub">
                   <li class="menu-item">
                       <a href="{{ route('courses.create') }}" class="menu-link">
@@ -189,6 +204,7 @@
               </li>
             </li>
 
+            @endif
           </ul>
         </aside>
         <!-- / Menu -->

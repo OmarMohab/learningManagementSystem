@@ -51,15 +51,15 @@
             </tr>
             @foreach ($meetings as $meeting)
                 <tr>
-                    <td>{{ ++$i }}</td>
+                    <td>{{ ++$loop->index }}</td>
                     <td>{{ $meeting->course->name }}</td>
                     <td>{{ $meeting->user->name }}</td>
                     <td>{{ $meeting->topic }}</td>
                     <td>{{ $meeting->start_at }}</td>
                     @if (Auth::user()->id == $meeting->user_id)
-                        <td><a href="{{$meeting->start_url}}">Join</a></td>
+                        <td><a class="btn btn-info" href="{{$meeting->start_url}}">Join</a></td>
                     @else
-                        <td><a href="{{$meeting->start_url}}">Join</a></td>
+                        <td><a class="btn btn-info" href="{{$meeting->start_url}}">Join</a></td>
                     @endif
                 </tr>
             @endforeach

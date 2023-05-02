@@ -13,7 +13,7 @@
 
             @foreach ($submissions as $submission)
             <tr>
-                <td>{{ 1 }}</td>
+                <td>{{ ++$loop->index }}</td>
                 <td>{{$submission->student->user->name}}</td>
                 <td>{{$submission->updated_at}}</td>
                 <td><a class="btn btn-info" href="{{Route('response.open', $submission)}}">Show</a></td>

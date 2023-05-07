@@ -6,7 +6,10 @@ use App\Models\Course;
 use App\Models\Assignment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewAssignmentNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class AssignmentController extends Controller
 {
@@ -47,7 +50,12 @@ class AssignmentController extends Controller
             $student->assignments()->attach($new_assignment->id);
         }
 
-        return redirect()->route('courses.index')->with('success','Assignment Created Successfully');
+        $students = $new_assignment->students;
+        $course_id = $new_assignment->course->id;
+        $course_name = $new_assignment->course->name;
+        Notification::send($students, new NewAssignmentNotification($course_id, $course_name));
+
+        return redirect()->route('courses.show', ['course' => $new_assignment->course])->with('success','Assignment Created Successfully');
     }
 
     /**

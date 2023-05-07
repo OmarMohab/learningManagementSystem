@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Material;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewMaterialNotification;
 
 class MaterialController extends Controller
 {
@@ -32,10 +34,17 @@ class MaterialController extends Controller
     {
         $material = $request->file('material')->getClientOriginalName();
         $path = $request->file('material')->storeAs('materials',$material,'public');
-        Material::create([
+
+        $new_material = Material::create([
             'path' => $path,
             'course_id' => $request->course_id
         ]);
+
+        $students = $new_material->course->students;
+        Notification::send($students, new NewMaterialNotification($new_material->course->name, $new_material->course->id ,basename($new_material->path)));
+        
+
+        return redirect()->route('courses.show', ['course' => $new_material->course]);
 
     }
 

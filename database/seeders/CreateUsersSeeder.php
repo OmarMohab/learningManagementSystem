@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -19,20 +20,12 @@ class CreateUsersSeeder extends Seeder
                'email'=>'admin@school.com',
                'role'=>1,
                'password'=> '123456',
-            ],
-            [
-               'name'=>'Teacher',
-               'email'=>'teacher@school.com',
-               'role'=> 2,
-               'password'=> '123456',
-            ],
-            [
-               'name'=>'Student',
-               'email'=>'student@school.com',
-               'role'=>0,
-               'password'=> '123456',
-            ],
+               'userable_type' => 'App\Models\Admin',
+               'userable_id' => 1
+            ]
         ];
+
+        Admin::create();
     
         foreach ($users as $key => $user) {
             User::create($user);

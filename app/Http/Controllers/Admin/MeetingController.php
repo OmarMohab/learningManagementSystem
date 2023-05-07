@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Meeting;
+use App\Notifications\NewMeetingNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class MeetingController extends Controller
 {
@@ -30,8 +32,13 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        Meeting::create($request->all());
-        return redirect()->route('courses.index')->with('success', 'Meeting Created Successfully');
+        $meeting = Meeting::create($request->all());
+
+        $students = $meeting->course->students;
+        $course_id = $meeting->course->id;
+        $course_name = $meeting->course->name;
+        Notification::send($students, new NewMeetingNotification($course_id, $course_name));
+        return redirect()->route('courses.show', ['course' => $meeting->course])->with('success', 'Meeting Created Successfully');
     }
 
     /**

@@ -8,10 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Notifications\NewCourseNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware(['auth', 'user-access:admin'])->except('index','show');
@@ -62,6 +65,12 @@ class CourseController extends Controller
         {
             $student->courses()->attach($course->id);
         }
+
+        $students = $course->students;
+        $teacher = $course->teacher;
+
+        Notification::send($students, new NewCourseNotification($course->id, $course->name));
+        Notification::send($teacher, new NewCourseNotification($course->id, $course->name));
      
         return redirect()->route('courses.index')
                         ->with('success','Course created successfully.');

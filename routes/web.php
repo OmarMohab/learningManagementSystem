@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\Admin\AssignmentController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\Admin\FileController;
-use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\MeetingController;
-use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Student\SubmssionController;
 
 /*
@@ -65,3 +66,5 @@ Route::get('/assignments/create/{course}', [AssignmentController::class, 'create
 
 Route::resource('/submissions', SubmssionController::class);
 Route::get('assignment_submissions/{assignment}', [SubmssionController::class, 'specific'])->name('submissions.assignment');
+
+Route::get('notifications/all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');

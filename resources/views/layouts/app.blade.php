@@ -239,6 +239,38 @@
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Notifications -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="">
+                    <i class="bi bi-bell-fill"></i>
+                    @if (auth()->user()->userable->unreadNotifications->count() > 0)
+                      <span class="badge rounded-pill badge-notification bg-danger">{{auth()->user()->userable->unreadNotifications->count()}}</span>    
+                    @endif                    
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <div class="row">
+                        <div class="col-sm">
+                          <h6 class="dropdown-header float-left">Notifications</h6>
+                        </div>
+                        <div class="col-sm float-right">
+                          <h6><a class="dropdown-header float-right" href="{{route('notifications.markAllAsRead')}}">Mark All As Read</a></h6>
+                        </div>
+                    </li>
+                    @foreach (auth()->user()->userable->unreadNotifications as $notification)
+                        <li>
+                          <a class="dropdown-item" href="{{route($notification->data['redirect'], $notification->data['argument'])}}">
+                            {{$notification->data['message']}}
+                          </a>
+                        </li>
+                        <li>
+                          <div class="dropdown-divider"></div>
+                        </li>
+                    @endforeach
+                  </ul>
+                </li>
+                <!-- /Notifications -->
+
                 <!-- Place this tag where you want the button to render. -->
                 <li class="nav-item lh-1 me-3">
                   <a

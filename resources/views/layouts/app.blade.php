@@ -65,7 +65,7 @@
         
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{{ route('login') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -137,7 +137,7 @@
 
             <!-- Dashboard -->
             <li class="menu-item active">
-              <a href="#" class="menu-link">
+              <a href="{{ route('courses.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -227,25 +227,25 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
+                  Hello @if(isset(auth()->user()->id)) {{ auth()->user()->name }} @endif, you are signed in as @if(isset(auth()->user()->id)) {{ auth()->user()->role }} @endif
                 </div>
               </div>
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Notifications -->
+                @if (isset(auth()->user()->userable->unreadNotifications))
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="">
-                    <i class="bi bi-bell-fill"></i>
-                    @if (auth()->user()->userable->unreadNotifications->count() > 0)
-                      <span class="badge rounded-pill badge-notification bg-danger">{{auth()->user()->userable->unreadNotifications->count()}}</span>    
-                    @endif                    
+                  <a class="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown" href="" {{ auth()->user()->userable->unreadNotifications->count() > 0 ? "enabled" : "disabled"}}>
+                    <div style="position: relative;
+                    width: 2.375rem;
+                    cursor: pointer;">
+                      @if(auth()->user()->userable->unreadNotifications->count() > 0)
+                        <img src="{{ asset('admintool/assets/img/avatars/notification.png') }}" alt style="width: 80%;height:80%"/>
+                      @else
+                        <img src="{{ asset('admintool/assets/img/avatars/bell.png') }}" alt style="width: 80%;height:80%"/>
+                      @endif
+                    </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
@@ -257,33 +257,20 @@
                           <h6><a class="dropdown-header float-right" href="{{route('notifications.markAllAsRead')}}">Mark All As Read</a></h6>
                         </div>
                     </li>
-                    @foreach (auth()->user()->userable->unreadNotifications as $notification)
-                        <li>
-                          <a class="dropdown-item" href="{{route($notification->data['redirect'], $notification->data['argument'])}}">
-                            {{$notification->data['message']}}
-                          </a>
-                        </li>
-                        <li>
-                          <div class="dropdown-divider"></div>
-                        </li>
-                    @endforeach
+                      @foreach (auth()->user()->userable->unreadNotifications as $notification)
+                          <li>
+                            <a class="dropdown-item" href="{{route($notification->data['redirect'], $notification->data['argument'])}}">
+                              {{$notification->data['message']}}
+                            </a>
+                          </li>
+                          <li>
+                            <div class="dropdown-divider"></div>
+                          </li>
+                      @endforeach
                   </ul>
                 </li>
+                @endif                    
                 <!-- /Notifications -->
-
-                <!-- Place this tag where you want the button to render. -->
-                <li class="nav-item lh-1 me-3">
-                  <a
-                    class="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                    >@if(isset(auth()->user()->id)) {{ auth()->user()->name }} @endif</a
-                  >
-                </li>
-
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

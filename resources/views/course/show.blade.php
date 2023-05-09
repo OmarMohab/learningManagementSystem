@@ -11,20 +11,27 @@
                     <a href="{{ url('courses') }}" class="fw-light">Courses /</a> <h2 class="card-title">{{ $course->name }}</h2>
                 </div>
                 <div class="card-body">
+                    @if (session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
                     <div class="row">
                         <div class="col-md-4 col-xl-4">
                             <div class="card shadow-none bg-transparent border border-active mb-3"> 
                                 <div class="card-body">
                                     <h2>Upload Material</h2>
-                                    <form action="{{Route('materials.store')}}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="input-group">
-                                            <input class="form-control" type="file" name="material"><br>
+                                    <form action="{{Route('materials.store')}}" method="POST" enctype="multipart/form-data" id="matrialform">
+                                            @csrf
+                                            <input id="matrialfile" class="form-control" type="file" name="material"><br>
                                             <input type="hidden" name=course_id value={{$course->id}}>
-                                            <button class="btn btn-primary" type="submit">Upload</button>
-                                        </div>
                                     </form>
+                                    <script type="text/javascript">
+                                        document.getElementById("matrialfile").onchange = function() {
+                                            document.getElementById("matrialform").submit();
+                                        };
+                                    </script>
                                 </div>
                             </div>
                         </div>

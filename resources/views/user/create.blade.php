@@ -24,7 +24,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="card mb-4">
-                    <h5 class="card-header">Default</h5>
+                    <h5 class="card-header">Create User</h5>
                     <div class="card-body">
                         <form action="{{ route('users.store') }}" method="POST">
                             @csrf
@@ -71,8 +71,8 @@
                                   id="defaultRadio1"
                                 />
                                 <label class="form-check-label" for="defaultRadio1"> Student </label>
-                              </div>
-                              <div class="form-check">
+                            </div>
+                            <div class="form-check">
                                 <input
                                   name="role"
                                   class="form-check-input"
@@ -81,8 +81,8 @@
                                   id="defaultRadio2"
                                 />
                                 <label class="form-check-label" for="defaultRadio2"> Admin </label>
-                              </div>
-                              <div class="form-check">
+                            </div>
+                            <div class="form-check">
                                 <input
                                   name="role"
                                   class="form-check-input"

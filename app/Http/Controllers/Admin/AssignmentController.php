@@ -34,11 +34,18 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
-        $assignment = $request->file('assignment')->getClientOriginalName();
-        $path = $request->file('assignment')->storeAs('assignments',$assignment,'public');
+        $request->validate([
+            'course_id' => 'required|numeric|exists:courses,id',
+            'name' => 'required|string|max:100',
+            'description' => 'required|string|max:1000',
+            'due_date' => 'required|date|after:yesterday',
+            'file' => 'required'
+        ]);
+        $assignment = $request->file('file')->getClientOriginalName();
+        $path = $request->file('file')->storeAs('assignments',$assignment,'public');
         $new_assignment = Assignment::create([
             'course_id' => $request->course_id,
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'name' => $request->name,
             'description' => $request->description,
             'due_date' => $request->due_date,
@@ -55,7 +62,7 @@ class AssignmentController extends Controller
         $course_name = $new_assignment->course->name;
         Notification::send($students, new NewAssignmentNotification($course_id, $course_name));
 
-        return redirect()->route('courses.show', ['course' => $new_assignment->course])->with('success','Assignment Created Successfully');
+        return redirect()->route('courses.show', ['course' => $new_assignment->course])->with('message','Assignment Created Successfully');
     }
 
     /**

@@ -37,6 +37,7 @@ class SubmssionController extends Controller
             'assignment_id' => $request->assignment_id,
             'student_id' => $request->student_id,
             'path' => $path
+
         ]);
 
         $assignment = Auth::user()->userable->assignments->find($new_submission->assignment_id);

@@ -44,7 +44,7 @@ class MaterialController extends Controller
         Notification::send($students, new NewMaterialNotification($new_material->course->name, $new_material->course->id ,basename($new_material->path)));
         
 
-        return redirect()->route('courses.show', ['course' => $new_material->course]);
+        return redirect()->route('courses.show', ['course' => $new_material->course])->with('message','Matrial Added successfully');
 
     }
 

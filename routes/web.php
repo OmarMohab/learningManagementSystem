@@ -32,7 +32,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'user-access:student'])->group(function () {
   
-    Route::get('/student/home', [HomeController::class, 'index'])->name('student.home');
+    Route::get('/student/home', [CourseController::class, 'index'])->name('student.home');
 });
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
@@ -48,7 +48,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 Route::middleware(['auth', 'user-access:teacher'])->group(function () {
   
-    Route::get('/teacher/home', [HomeController::class, 'teacherHome'])->name('teacher.home');
+    Route::get('/teacher/home', [CourseController::class, 'index'])->name('teacher.home');
 });
 
 Route::resource('/courses', CourseController::class);

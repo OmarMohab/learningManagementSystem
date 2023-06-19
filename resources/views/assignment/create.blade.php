@@ -38,6 +38,7 @@
                                         class="form-control"
                                         id="defaultFormControlInput"
                                         aria-describedby="defaultFormControlHelp"
+                                        value="{{ old('name') }}"
                                         />
                                     </div>
                                     <div>
@@ -48,6 +49,7 @@
                                         class="form-control"
                                         id="defaultFormControlInput"
                                         aria-describedby="defaultFormControlHelp"
+                                        value="{{ old('description') }}"
                                         />
                                     </div>
                                     <div>
@@ -58,6 +60,7 @@
                                         class="form-control"
                                         id="defaultFormControlInput"
                                         aria-describedby="defaultFormControlHelp"
+                                        value="{{ old('due_date') }}"
                                         />
                                     </div>
                                     <div>
@@ -68,6 +71,7 @@
                                         class="form-control"
                                         id="defaultFormControlInput"
                                         aria-describedby="defaultFormControlHelp"
+                                        value="{{ old('file') }}"
                                         />
                                     </div>
                                     <div class="row mt-3">

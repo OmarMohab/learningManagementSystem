@@ -38,6 +38,7 @@
                                 id="defaultFormControlInput"
                                 placeholder="John Doe"
                                 aria-describedby="defaultFormControlHelp"
+                                value="{{ old('name') }}"
                                 />
                             </div>
                             <div>
@@ -49,6 +50,7 @@
                                 id="defaultFormControlInput"
                                 placeholder="email@email.com"
                                 aria-describedby="defaultFormControlHelp"
+                                value="{{ old('email') }}"
                                 />
                             </div>
                             <div>
@@ -60,6 +62,7 @@
                                 id="defaultFormControlInput"
                                 placeholder="Password"
                                 aria-describedby="defaultFormControlHelp"
+                                value="{{ old('password') }}"
                                 />
                             </div>
                             <div class="form-check mt-3">

@@ -312,6 +312,13 @@
                 </li>
                 <!--/ User -->
               </ul>
+                 <style>
+                  .dropdown-menu {
+                    max-height: 300px;
+                    overflow-y: auto;
+                    overflow-x: hidden; 
+                    }
+                 </style>
             </div>
           </nav>
 

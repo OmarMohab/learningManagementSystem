@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -41,26 +41,29 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {   
-        $input = $request->all();
-     
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-     
-        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
-        {
-            if (auth()->user()->role == 'admin') {
-                return redirect()->route('admin.home');
-            }else if (auth()->user()->role == 'teacher') {
-                return redirect()->route('teacher.home');
-            }else if(auth()->user()->role == 'student'){
-                return redirect()->route('student.home');
-            }
-        }else{
-            return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+  {   
+    $input = $request->all();
+ 
+    $this->validate($request, [
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
+    {
+        if (auth()->user()->role == 'admin') {
+            return redirect()->route('admin.home');
+        } else if (auth()->user()->role == 'teacher') {
+            return redirect()->route('teacher.home');
+        } else if(auth()->user()->role == 'student'){
+            return redirect()->route('student.home');
         }
     }
+
+    return redirect()->route('login')
+        ->with('error','Email-Address And Password Are Wrong.');
+
+
+ }
+
 }

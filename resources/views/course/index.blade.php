@@ -50,10 +50,9 @@
                     <td>{{ $course->grade->name }}</td>
                     <td>
                         <form action="{{ route('courses.destroy',$course->id) }}" method="POST">
-                            <div class="input-group">
                             <a class="btn btn-info" href="{{ route('courses.show',$course->id) }}">Show</a>
                             @if (Auth::user()->role == 'admin')
-                    
+
                             <a class="btn btn-primary" href="{{ route('courses.edit',$course->id) }}">Edit</a>
            
                             @csrf
@@ -61,7 +60,6 @@
         
                             <button type="submit" class="btn btn-danger">Delete</button>
                             @endif
-                            </div>                    
                         </form>
                     </td>
                 </tr>

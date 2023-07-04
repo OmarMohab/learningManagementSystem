@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->tinyInteger('valid');
+            $table->tinyInteger('valid');   
             $table->bigInteger('quiz_question_id')->unsigned();
             $table->foreign('quiz_question_id')
             ->references('id')->on('quiz_questions')

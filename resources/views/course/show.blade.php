@@ -68,9 +68,9 @@
                                     <div class="card-body">
                                         <h2>Quiz {{$quiz->title}}</h2>
                                         @if($quiz_student_check == 0)
-                                            <a class="btn btn-primary" target="popup" onclick="window.open('{{route('start-quiz',$quiz->id)}}','name','width=2500,height=2500')">Start Quiz</a>
+                                            <a class="btn btn-primary" target="popup" onclick="window.open('{{route('start-quiz',$quiz->id)}}','name','width=2500,height=2500')" style="color:white">Start Quiz</a>
                                         @else
-                                            <a class="btn btn-primary" style="color:black">Already Submitted the quiz</a>
+                                            <a class="btn btn-primary" style="color:white">Already Submitted the quiz</a>
                                         @endif
                                     </div>
                                 </div>

@@ -91,8 +91,12 @@ class CourseController extends Controller
                 $query->where('student_id', auth()->user()->userable_id);
             }])
         ->get();
-        $quiz = Quiz::where('course_id',$course->id)->where('start_date', '<=' ,Carbon::now())->latest('created_at')->first();
-        $quiz_student_check = StudentQuiz::where('quiz_id',$quiz->id)->count();
+        $quiz = Quiz::where('course_id',$course->id)
+                    ->where('start_date','<=',Carbon::now()->toDateTimeString())
+                    ->where('end_date','>=',Carbon::now()->toDateTimeString())
+                    ->latest('created_at')->first();
+                    
+        $quiz_student_check = $quiz ? StudentQuiz::where('quiz_id',$quiz->id)->count() : 0;
 
         return view('course.show',compact('course','materials','meetings','assignments','quiz','quiz_student_check'));
     }

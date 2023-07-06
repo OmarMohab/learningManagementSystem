@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\QuizStudentController;
 use App\Http\Controllers\Student\SubmssionController;
 
 /*
@@ -78,7 +79,8 @@ Route::get('assignment_submissions/{assignment}', [SubmssionController::class, '
 
 Route::get('notifications/all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 
-Route::get('start/quiz',function(){
-})->name('start-quiz');
+Route::get('start/quiz/{id}', [QuizStudentController::class, 'startQuizPage'])->name('start-quiz');
 
-Route::post('start/quiz',)->name('start-quiz');
+Route::post('start/quiz/{id}',[QuizStudentController::class, 'startQuiz'])->name('start-quiz-submit');
+
+Route::post('submit/quiz/{quiz}',[QuizStudentController::class, 'submitQuiz'])->name('quiz-submit');

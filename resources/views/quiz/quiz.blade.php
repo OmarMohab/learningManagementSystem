@@ -235,98 +235,90 @@ body {
       "explanation-section";
   }
 }
+.hiddenfile {
+   opacity: 0;
+   visibility: hidden;
+   display: none;
+}
 </style>
 <main>
+  <form action="{{ route('quiz-submit', $quiz) }}" method="post">
+  @csrf
+  @method('POST')
   <div class="container">
-    <h1 class="quiz-title">Quiz Title</h1>
+    <h1 class="quiz-title">{{ $quiz->title }}</h1>
+      
     <section class="question-section">
+    @foreach ($quiz->quiz_question as $question)
+    <div  id="{{ $question->id }}" class="SOMETHING @if($loop->index > 0) hiddenfile @endif">
       <div class="question">
-        <h2 class="question-num">Question 11</h2>
-        <p class="question-text">Which lifecycle method is called after a component is rendered for the first time?</p>
-      </div>
-      <div class="answer">
-        <label class="answer-item">
-          <input type="radio" name="option1" onchange="toggleParentClass(this)" id="">
-          <span>componentDidMount</span>
-        </label>
-        <label class="answer-item">
-          <input type="radio" name="option2" onchange="toggleParentClass(this)" id="">
-          <span>componentDidUpdate</span>
-        </label>
-        <label class="answer-item">
-          <input type="radio" name="option3" onchange="toggleParentClass(this)" id="">
-          <span>componentWillMount</span>
-        </label>
-        <label class="answer-item">
-          <input type="radio" name="option4" onchange="toggleParentClass(this)" id="">
-          <span>componentWillUpdate</span>
-        </label>
-      </div>
-      <div class="action">
-        <button class="btn">Prev</button>
-        <button class="btn">Next</button>
-      </div>
+          <h2 class="question-num">Question {{ $loop->index + 1 }}</h2>
+          <p class="question-text">{{ $question->content }}</p>
+        </div>
+        <div class="answer">
+          @foreach ($question->answer as $answer)
+            <label class="answer-item" id="answer-item-{{$question->id}}">
+              <input type="radio" name="{{$question->id}}" value="{{$answer->id}}" onchange="toggleParentClass(this,{{$question->id}})" id="{{$answer->id}}">
+              <span>{{ $answer->content }}</span>
+            </label>
+          @endforeach
+        </div>
+    </div>
+    @endforeach
     </section>
-    <section class="explanation-section">
-      <h2 class="section-title">Explanation</h2>
-      <p class="explanation-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </section>
+
+    
     <section class="questions-nav-section">
-      <p class="question-context"> 
-       <a href="#"><span class="question-num">Question 11/20</span></a>  
-       <a href="#"><span class="question-help">Need Help?</span></a> 
-      </p>
       <div class="d-flex"> 
         <ul class="question-nums-list">
-          <li><a class="done" href="#">1</a></li>
-          <li><a class="done" href="#">2</a></li>
-          <li><a class="done" href="#">3</a></li>
-          <li><a class="done" href="#">4</a></li>
-          <li><a class="done" href="#">5</a></li>
-          <li><a class="done" href="#">6</a></li>
-          <li><a class="done" href="#">7</a></li>
-          <li><a class="done" href="#">8</a></li>
-          <li><a class="done" href="#">9</a></li>
-          <li><a class="done" href="#">10</a></li>
-          <li><a class="active" href="#">11</a></li>
-          <li><a href="#">12</a></li>
-          <li><a href="#">13</a></li>
-          <li><a href="#">14</a></li>
-          <li><a href="#">15</a></li>
-          <li><a href="#">16</a></li>
-          <li><a href="#">17</a></li>
-          <li><a href="#">18</a></li>
-          <li><a href="#">19</a></li>
-          <li><a href="#">20</a></li>
+        @foreach ($quiz->quiz_question as $question)
+          <li><a class="done" href="#{{$question->id}}" id="{{ $loop->index }}">{{ $loop->index + 1 }}</a></li>
+        @endforeach
         </ul>
       </div>
+      <br>
+      <button class="btn" type="submit">Submit Quiz</button>
     </section>
   </div>
+  </form>
 </main>
 
+
 <script>
-    function toggleParentClass(radio) {
-  var parent = radio.parentNode;
-
-  // Remove 'checked' class from all answer-items
-  var answerItems = document.querySelectorAll('.answer-item');
-  for (var i = 0; i < answerItems.length; i++) {
-    if (answerItems[i] !== parent) { 
-      answerItems[i].classList.remove('checked');
-      answerItems[i].querySelector('input[type="radio"]').checked = false; 
+    window.onload = function() {
+      document.getElementById("0").click();
     }
-  } 
-  
-  if (parent.querySelector('span').innerHTML.trim() !== "componentDidMount") {
-  parent.classList.add('wrong');
-  console.log(parent.querySelector('span').innerHTML);
-}
+    function toggleParentClass(radio, id) {
 
+      var parent = radio.parentNode;
 
-  if (radio.checked) {
-    parent.classList.add('checked');
-  } else {
-    parent.classList.remove('checked');
-  }
-}
+      var answerItems = document.querySelectorAll('#answer-item-'+id);
+      for (var i = 0; i < answerItems.length; i++) {
+        if (answerItems[i] !== parent) { 
+          answerItems[i].classList.remove('checked');
+          answerItems[i].querySelector('input[type="radio"]').checked = false; 
+        }
+      }
+
+      if (radio.checked) {
+        parent.classList.add('checked');
+      } else {
+        parent.classList.remove('checked');
+      }
+    }
+
+    function checkSomething(event) {
+        [...document.querySelectorAll(".SOMETHING")].slice(0).forEach( (div) =>
+            // hide or show all "SOMETHING" elements as necessary
+            div.classList[(div.id == window.location.hash.substring(1)) ? "remove" : "add"]("hiddenfile")
+        )
+    }
+
+    function init() {
+        window.onhashchange = checkSomething;
+        // need to check if an external link was to an anchor
+        checkSomething(); 
+    }
+
+    document.addEventListener("DOMContentLoaded", init)
 </script>

@@ -11,5 +11,6 @@ class StudentQuiz extends Model
     protected $fillable = [
         'quiz_id',
         'student_score',
+        'student_id'
     ];
 }

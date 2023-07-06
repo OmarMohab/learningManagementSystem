@@ -7,7 +7,7 @@
   font-size: 1.75em;
 }
 
-a {
+button {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -43,7 +43,7 @@ a {
   transition: 0.25s;
 }
 
-a:active .spinner, a:focus .spinner, a:hover .spinner {
+button:active .spinner, button:focus .spinner, button:hover .spinner {
   --width: 1em;
   --offset-r: 0.333em;
   --offset-l: -0.333em;
@@ -62,6 +62,10 @@ a:active .spinner, a:focus .spinner, a:hover .spinner {
   }
 }
 </style>
-<a href="{{ route('start-quiz',quiz_id) }}">
-  <div class="spinner"></div>Start Quiz
-</a>
+<form action="{{ route('start-quiz-submit',$quiz_id) }}" method="POST">
+  @csrf
+  @method('POST')
+  <button>
+      <div class="spinner"></div>Start Quiz
+  </button>
+</form>

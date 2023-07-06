@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Quiz extends Model
 {
@@ -14,4 +15,9 @@ class Quiz extends Model
         'course_id',
         'end_date'
     ];
+
+    public function quiz_question(): HasMany
+    {
+        return $this->hasMany(QuizQuestion::class);
+    }
 }

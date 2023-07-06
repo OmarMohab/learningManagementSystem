@@ -18,7 +18,7 @@
                     @endif
                     @if (Auth::user()->role == 'teacher' or Auth::user()->role == 'admin')
                     <div class="row">
-                        <div class="col-md-4 col-xl-4">
+                        <div class="col-md-3 col-xl-3">
                             <div class="card shadow-none bg-transparent border border-active mb-3"> 
                                 <div class="card-body">
                                     <h2>Upload Material</h2>
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-xl-4">
+                        <div class="col-md-3 col-xl-3">
                             <div class="card shadow-none bg-transparent border border-active mb-3">
                                 <div class="card-body">
                                     <h2>Create new Meeting</h2>
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-xl-4">
+                        <div class="col-md-3 col-xl-3">
                             <div class="card shadow-none bg-transparent border border-active mb-3">
                                 <div class="card-body">
                                     <h2>Create new Assignment</h2>
@@ -51,7 +51,31 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3 col-xl-3">
+                            <div class="card shadow-none bg-transparent border border-active mb-3">
+                                <div class="card-body">
+                                    <h2>Quizes</h2>
+                                    <a class="btn btn-primary" href="{{route('quiz.index', $course)}}">Show</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    @endif
+                    @if (Auth::user()->role == 'student')
+                        @if($quiz)
+                            <div class="col-md-3 col-xl-3">
+                                <div class="card shadow-none bg-transparent border border-active mb-3">
+                                    <div class="card-body">
+                                        <h2>Quiz {{$quiz->title}}</h2>
+                                        @if($quiz_student_check == 0)
+                                            <a class="btn btn-primary" target="popup" onclick="window.open('{{route('start-quiz',$quiz->id)}}','name','width=2500,height=2500')">Start Quiz</a>
+                                        @else
+                                            <a class="btn btn-primary" style="color:black">Already Submitted the quiz</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif        
                     @endif
                     <div id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
                         <div class="accordion-item card">

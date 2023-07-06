@@ -11,6 +11,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\AssignmentController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Student\SubmssionController;
 
 /*
@@ -49,6 +51,13 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 Route::middleware(['auth', 'user-access:teacher'])->group(function () {
   
     Route::get('/teacher/home', [CourseController::class, 'index'])->name('teacher.home');
+    Route::get('quiz/{id}', [QuizController::class, 'index'])->name('quiz.index');
+    Route::get('quiz/create/{id}', [QuizController::class, 'create'])->name('quiz.create');
+    Route::post('quiz/create/{id}', [QuizController::class, 'store'])->name('quiz.store');
+    Route::get('question/{id}', [QuestionController::class, 'index'])->name('question.index');
+    Route::get('question/create/{id}', [QuestionController::class, 'create'])->name('question.create');
+    Route::post('question/create/{id}', [QuestionController::class, 'store'])->name('question.store');
+
 });
 
 Route::resource('/courses', CourseController::class);
@@ -68,3 +77,8 @@ Route::resource('/submissions', SubmssionController::class);
 Route::get('assignment_submissions/{assignment}', [SubmssionController::class, 'specific'])->name('submissions.assignment');
 
 Route::get('notifications/all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+
+Route::get('start/quiz',function(){
+})->name('start-quiz');
+
+Route::post('start/quiz',)->name('start-quiz');

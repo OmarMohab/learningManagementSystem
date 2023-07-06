@@ -6,9 +6,12 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
+use App\Models\Quiz;
+use App\Models\StudentQuiz;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Notifications\NewCourseNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,8 +91,10 @@ class CourseController extends Controller
                 $query->where('student_id', auth()->user()->userable_id);
             }])
         ->get();
+        $quiz = Quiz::where('course_id',$course->id)->where('start_date', '<=' ,Carbon::now())->latest('created_at')->first();
+        $quiz_student_check = StudentQuiz::where('quiz_id',$quiz->id)->count();
 
-        return view('course.show',compact('course','materials','meetings','assignments'));
+        return view('course.show',compact('course','materials','meetings','assignments','quiz','quiz_student_check'));
     }
 
     /**

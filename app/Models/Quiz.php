@@ -2,9 +2,16 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 
-class Quiz extends Controller
+class Quiz extends Model
 {
-    //
+    protected $table = 'quizes';
+
+    protected $fillable = [
+        'title',
+        'start_date',
+        'course_id',
+        'end_date'
+    ];
 }

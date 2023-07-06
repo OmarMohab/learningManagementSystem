@@ -38,14 +38,17 @@ class QuizStudentController extends Controller
     public function submitQuiz(Request $request, $id){
 
         $quiz = Quiz::where('id', $id)
-        ->with('quiz_question.answer')
+        ->with('quiz_question.answer',  function ($query) {
+            $query->where('valid', 1);
+        })
         ->first();
-        $score = 0;
 
+        $score = 0;
         foreach($quiz->quiz_question as $question){
-            $valid_answer = Answer::where('quiz_question_id', $question->id)->where('valid', 1)->first();
-            if($valid_answer->id == $request->input($question->id)){
-                $score = $score + $question->score;
+            foreach($question->answer as $answer){
+                if($answer->id == $request->input($question->id)){
+                    $score = $score + $question->score;
+                }
             }
         }
 

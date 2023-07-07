@@ -14,14 +14,16 @@ class QuizStudentController extends Controller
 {
 
     public function startQuizPage($quiz_id){
-        if(StudentQuiz::where('quiz_id',$quiz_id)->where('student_id',auth()->user()->id)->count() > 0){
+        $student_quiz_record = StudentQuiz::where('quiz_id',$quiz_id)->where('student_id',auth()->user()->id)->first();
+        if(isset($student_quiz_record)){
             return view('quiz.error');
         }
         return view('quiz.start-quiz',compact('quiz_id'));
     }
 
     public function startQuiz($id){
-        if(StudentQuiz::where('quiz_id',$id)->where('student_id',auth()->user()->id)->count() == 0){
+        $student_quiz_record = StudentQuiz::where('quiz_id',$id)->where('student_id',auth()->user()->id)->first();
+        if(!isset($student_quiz_record)){
             StudentQuiz::create([
                 'quiz_id' => $id,
                 'student_id' => auth()->user()->id,
@@ -67,6 +69,11 @@ class QuizStudentController extends Controller
         $student_quiz = StudentQuiz::where('quiz_id',$id)->where('student_id',auth()->user()->id)->first();
         $student_quiz->studnet_score = $score;
         $student_quiz->save();
-        return view('quiz.success');
+        return view('quiz.loading',compact('quiz'));
+    }
+
+    public function getQuizScore($id){
+        $score = StudentQuiz::where('quiz_id',$id)->where('student_id',auth()->user()->id)->first();
+        return view('quiz.success', compact('score'));
     }
 }

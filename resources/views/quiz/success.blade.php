@@ -183,6 +183,8 @@ button:hover {
           <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
         </svg></p>
       <h1>Submitted!</h1>
+      <h1>You got {{$score->studnet_score}} Degree</h1>
+
 
       <ul class="bg-bubbles">
         <li></li>
@@ -200,7 +202,7 @@ button:hover {
 
     <div class="bottomHalf">
 
-      <p>Quiz has been successfully submitted...</p>
+      <p>Window will close automatically in (<span id="countdown">10</span>s)</p>
 
 
     </div>
@@ -208,3 +210,12 @@ button:hover {
   </div>
 
 </div>
+<script type="text/javascript">
+    window.addEventListener("DOMContentLoaded", (function() {
+        var n = document.getElementById("countdown"),
+            e = parseInt(n.innerText),
+            t = setInterval((function() {
+            e--, n.innerText = e, e <= 0 && (clearInterval(t), window.close())
+            }), 1000)
+    }));
+</script>

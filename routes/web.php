@@ -84,3 +84,5 @@ Route::get('start/quiz/{id}', [QuizStudentController::class, 'startQuizPage'])->
 Route::post('start/quiz/{id}',[QuizStudentController::class, 'startQuiz'])->name('start-quiz-submit');
 
 Route::post('submit/quiz/{quiz}',[QuizStudentController::class, 'submitQuiz'])->name('quiz-submit');
+
+Route::get('score/quiz/{quiz}',[QuizStudentController::class, 'getQuizScore'])->name('quiz-score');

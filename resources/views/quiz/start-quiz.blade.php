@@ -15,7 +15,7 @@ button {
   font-size: inherit;
   border-radius: 2em;
   padding: 0.75em 1em;
-  background: blue;
+  background: #696cff;
   color: white;
   display: inline-flex;
   align-items: center;

@@ -6,6 +6,8 @@ use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Quiz;
+use Carbon\Carbon;
 
 class QuestionController extends Controller
 {
@@ -31,6 +33,12 @@ class QuestionController extends Controller
      */
     public function store(Request $request,$id)
     {
+        $quiz= Quiz::where('id', $id)->first();
+
+        if($quiz->start_date <= Carbon::now()->toDateTimeString()){
+            return redirect()->route('quiz.index', $quiz->course_id)->with('failure','You cannot add new question as the quiz already started.');
+        }
+
         $request->validate([
             'content' => 'required',
             'score' => 'required',

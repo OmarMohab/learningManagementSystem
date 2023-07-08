@@ -18,6 +18,10 @@ return new class extends Migration
             ->references('id')->on('quizes')
             ->onUpdate('cascade')
             ->onDelete('cascade');
+            $table->foreignId('student_id')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->double('studnet_score');
             $table->timestamps();
         });

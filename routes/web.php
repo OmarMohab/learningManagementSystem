@@ -55,6 +55,9 @@ Route::middleware(['auth', 'user-access:teacher'])->group(function () {
     Route::get('quiz/{id}', [QuizController::class, 'index'])->name('quiz.index');
     Route::get('quiz/create/{id}', [QuizController::class, 'create'])->name('quiz.create');
     Route::post('quiz/create/{id}', [QuizController::class, 'store'])->name('quiz.store');
+    Route::get('quiz/update/{id}', [QuizController::class, 'edit'])->name('quiz.edit');
+    Route::post('quiz/update/{id}', [QuizController::class, 'update'])->name('quiz.update');
+    Route::post('quiz/delete/{id}', [QuizController::class, 'destroy'])->name('quiz.destroy');
     Route::get('question/{id}', [QuestionController::class, 'index'])->name('question.index');
     Route::get('question/create/{id}', [QuestionController::class, 'create'])->name('question.create');
     Route::post('question/create/{id}', [QuestionController::class, 'store'])->name('question.store');

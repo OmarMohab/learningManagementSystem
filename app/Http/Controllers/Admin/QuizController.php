@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\QuizQuestion;
 use Carbon\Carbon;
 
 class QuizController extends Controller
@@ -60,9 +61,10 @@ class QuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $quiz = Quiz::where('id', $id)->first();
+        return view('quiz.edit',compact('quiz'));
     }
 
     /**
@@ -70,7 +72,18 @@ class QuizController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        $quiz = Quiz::where('id', $id)->firstOrFail();
+        $quiz->title = $request->input('title');
+        $quiz->end_date = $request->input('end_date');
+        $quiz->save();
+
+        return redirect()->route('quiz.index', $quiz->course_id);
+
     }
 
     /**
@@ -78,6 +91,9 @@ class QuizController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $quiz = Quiz::where('id', $id)->firstOrFail();
+        $course_id = $quiz->course_id;
+        $quiz->delete();
+        return redirect()->route('quiz.index', $course_id);
     }
 }

@@ -19,6 +19,8 @@ return new class extends Migration
                   ->references('id')->on('courses')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
+            $table->timestamp('start_date');
+            $table->timestamp('end_date');
             $table->timestamps();
         });
     }

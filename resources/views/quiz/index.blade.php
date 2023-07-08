@@ -14,6 +14,12 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+
+    @if ($message = Session::get('failure'))
+        <div class="alert alert-danger">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
     
     <div class="col-md-12 col-xl-12">
         <div class="card shadow-none bg-transparent border border-active mb-3">
@@ -44,7 +50,16 @@
                     <td>{{ $quiz->title }}</td>
                     <td>{{ Carbon\Carbon::parse($quiz->start_date)->format('d M Y') }}</td>
                     <td>Start Time: {{ Carbon\Carbon::parse($quiz->start_date)->format('H:i') }} | End Time: {{ Carbon\Carbon::parse($quiz->end_date)->format('H:i') }}</td>
-                    <td><a class="btn btn-info" href="{{ route('question.index',$quiz->id) }}">Questions</a></td>
+                    <td>
+                      <a class="btn btn-info" href="{{ route('quiz.edit',$quiz->id) }}">Update</a> <br> <br> 
+                      @if($quiz->start_date > Carbon\Carbon::now()->toDateTimeString())<a class="btn btn-info" href="{{ route('question.index',$quiz->id) }}">Questions</a>  <br> <br> @endif
+                      <form action="{{ route('quiz.destroy',$quiz->id) }}" method="POST">
+                            @csrf
+                            @method('POST')
+        
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
               </tbody>

@@ -18,11 +18,12 @@ return new class extends Migration
             ->references('id')->on('quizes')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            $table->foreignId('student_id')
-            ->constrained()
+            $table->bigInteger('student_id')->unsigned();
+            $table->foreign('student_id')
+            ->references('id')->on('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            $table->double('studnet_score');
+            $table->double('studnet_score')->default('1');
             $table->timestamps();
         });
     }

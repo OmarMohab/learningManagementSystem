@@ -23,7 +23,7 @@ return new class extends Migration
             ->references('id')->on('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            $table->double('studnet_score')->default('1');
+            $table->double('studnet_score')->default('0');
             $table->timestamps();
         });
     }
